@@ -11,3 +11,6 @@ TO see the logs you can use
 To open OpensearchDashboard 
 
 -Open a browser and typle localhost:5601
+
+
+echo "This is test"
