@@ -1,0 +1,47 @@
+version: '3'
+services:
+  my-net-mon:
+    image: nova056/my-net-mon:v1
+    container_name: my-net-mon
+    volumes:
+      - /home/nova056/logfiles:/opt/logfiles
+    command: ["-w"]    
+    networks:
+      - opensearch-net
+    
+  opensearch:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - /home/nova056/logfiles:/usr/share/logstash/logfiles
+    networks:
+      - opensearch-net
+
+  opensearch-dashboard:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboard
+    environment:
+      - OPENSEARCH_HOSTS=https://opensearch:9200
+    ports:
+      - 5601:5601
+    networks:
+      - opensearch-net
+
+  logstash:
+    image: opensearchproject/logstash-oss-with-opensearch-output-plugin:7.16.2
+    container_name: logstash
+    volumes:
+      - /home/nova056/logfiles:/usr/share/logstash/logfiles
+    ports:
+      - 5400:5400
+    command: ["logstash", "-f", "/usr/share/logstash/logfiles/json-read.conf"]    
+    networks:
+      - opensearch-net
+
+networks:
+  opensearch-net:
