@@ -5,6 +5,7 @@ pipeline {
         // Stage 1: Clean Up
         stage('Clean Up') {
             steps {
+                echo 'Cleaning up...'
                 // Remove previous Docker images and containers (ignore errors if they don't exist)
                 sh 'docker rmi -f harbor.registry.local/devops-mynetmon/my-net-mon:v1.$((BUILD_NUMBER - 1)) || true'
                 sh 'docker container stop my-net-mon || true'
@@ -16,6 +17,7 @@ pipeline {
         // Stage 2: Build Docker Image
         stage('Build') {
             steps {
+                echo 'Building Docker image...'
                 // Build a new Docker image
                 sh 'docker build -t harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER ./my-net-mon-docker-image/'
             }
@@ -24,6 +26,7 @@ pipeline {
         // Stage 3: Deploy Containers
         stage('Deploy') {
             steps {
+                echo 'Deploying containers...'
                 // Pull necessary Docker images
                 sh 'docker pull harbor.registry.local/devops-mynetmon/openserach'
                 sh 'docker pull harbor.registry.local/devops-mynetmon/openserach-dashboards'
@@ -40,6 +43,7 @@ pipeline {
         // Stage 4: Push Docker Image
         stage('Push') {
             steps {
+                echo 'Pushing Docker image...'
                 // Push the newly built Docker image to the registry
                 sh 'docker push harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
             }
@@ -49,6 +53,7 @@ pipeline {
     // Post-build Actions
     post {
         always {
+            echo 'Post-build actions...'
             // Any cleanup or additional actions you want to perform after all stages
             sh 'echo "Always block executed"'
         }
