@@ -60,7 +60,8 @@ pipeline {
 
     post {
         always {
-            // Clean up any resources or perform cleanup actions if needed
+            // Dummy step to ensure there are steps in the always block
+            sh 'echo "Always block executed"'
         }
     }
 }
