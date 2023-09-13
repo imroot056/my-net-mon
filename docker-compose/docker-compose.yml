@@ -1,16 +1,16 @@
 version: '3'
 services:
-  my-net-mon:
-    image: nova056/my-net-mon:v1
-    container_name: my-net-mon
-    volumes:
-      - /home/nova056/logfiles:/opt/logfiles
-    command: ["-w"]    
-    networks:
-      - opensearch-net
+  #my-net-mon:
+   # image: nova056/my-net-mon:v1
+    #container_name: my-net-mon
+    #volumes:
+     # - /home/nova056/logfiles:/opt/logfiles
+    #command: ["-w"]    
+    #networks:
+     # - opensearch-net
     
   opensearch:
-    image: opensearchproject/opensearch:latest
+    image: harbor.registry.local/devops-mynetmon/openserach
     container_name: opensearch
     environment:
       - discovery.type=single-node
@@ -23,7 +23,7 @@ services:
       - opensearch-net
 
   opensearch-dashboard:
-    image: opensearchproject/opensearch-dashboards:latest
+    image: harbor.registry.local/devops-mynetmon/openserach-dashboards
     container_name: opensearch-dashboard
     environment:
       - OPENSEARCH_HOSTS=https://opensearch:9200
@@ -33,7 +33,7 @@ services:
       - opensearch-net
 
   logstash:
-    image: opensearchproject/logstash-oss-with-opensearch-output-plugin:7.16.2
+    image: harbor.registry.local/devops-mynetmon/logstash
     container_name: logstash
     volumes:
       - /home/nova056/logfiles:/usr/share/logstash/logfiles
