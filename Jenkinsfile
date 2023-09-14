@@ -52,6 +52,14 @@ pipeline {
 
     // Post-build Actions
     post {
+        always {
+            echo 'Sending notification to your email...'
+            mail to: 'imroot056@example.com',
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+            body: "Please go to ${BUILD_URL} and verify the build",
+            mimeType: 'text/plain'
+        }
+        
         success {
             
             echo 'Sending success email notification...'
@@ -67,12 +75,6 @@ pipeline {
             mail to: 'imroot056@gmail.com',
             mimeType: 'text/plain'
         }
-        always {
-            echo 'Sending notification to your email...'
-            mail to: 'imroot056@example.com',
-            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-            body: "Please go to ${BUILD_URL} and verify the build",
-            mimeType: 'text/plain'
-        }
+        
     }
 }
