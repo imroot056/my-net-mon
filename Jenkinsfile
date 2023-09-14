@@ -68,7 +68,7 @@ pipeline {
         }
         always {
             echo 'Sending notification to your email...'
-            emailext to: 'your.email@example.com',
+            emailext to: 'imroot056@gmail.com',
                 subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
                 body: "Please go to ${BUILD_URL} and verify the build",
                 mimeType: 'text/plain'
