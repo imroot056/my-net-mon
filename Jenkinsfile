@@ -43,35 +43,31 @@ pipeline {
                 echo 'Building Docker image on built-in-node...'
                 // Build a new Docker image
                 sh 'docker build -t harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER ./my-net-mon-docker-image/'
+                echo 'Pushing Docker image...'
+                // Push the newly built Docker image to the registry
+                sh 'docker push harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
+
             }
         }
 
         // Stage 3: Deploy Containers
         stage('Deploy') {
+            agent {
+                label 'ubuntu-slave-node'
+            }
             steps {
-                echo 'Deploying containers...'
+                echo 'Pulling and Deploying containers...'
                 // Pull necessary Docker images
                 sh 'docker pull harbor.registry.local/devops-mynetmon/openserach'
                 sh 'docker pull harbor.registry.local/devops-mynetmon/openserach-dashboards'
                 sh 'docker pull harbor.registry.local/devops-mynetmon/logstash'
+                sh 'docker pull harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
 
                 // Start Docker containers using Docker Compose
                 sh 'docker compose -f ./docker-compose/docker-compose.yml up -d'
 
                 // Run a Docker container with a specific name and volume
-                sh 'docker run -itd --name my-net-mon -v /home/nova056/logfiles:/opt/logfiles harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
-            }
-        }
-
-        // Stage 4: Push Docker Image
-        stage('Push') {
-            agent {
-                label 'built-in-node'
-            }
-            steps {
-                echo 'Pushing Docker image...'
-                // Push the newly built Docker image to the registry
-                sh 'docker push harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
+                sh 'docker run -itd --name my-net-mon -v /home/nova007/logfiles:/opt/logfiles harbor.registry.local/devops-mynetmon/my-net-mon:v1.$BUILD_NUMBER'
             }
         }
     }
