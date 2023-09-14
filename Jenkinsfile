@@ -59,23 +59,5 @@ pipeline {
                 body: "Please go to ${BUILD_URL} and verify the build",
                 mimeType: 'text/plain'
         }
-        success {
-            echo 'Sending success email notification...'
-            emailext subject: 'Net Monitor Build Successful',
-                body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
-                to: 'imroot056@gmail.com',
-                mimeType: 'text/html',
-                replyTo: '',
-                from: ''
-        }
-        failure {
-            echo 'Sending retry email notification...'
-            emailext subject: 'Net Monitor Build Failed',
-                body: 'The Net Monitor build has failed. Please retry the build.',
-                to: 'imroot056@gmail.com',
-                mimeType: 'text/html',
-                replyTo: '',
-                from: ''
-        }
     }
 }
