@@ -53,6 +53,7 @@ pipeline {
     // Post-build Actions
     post {
         success {
+            
             echo 'Sending success email notification...'
             subject: 'Net Monitor Build Successful',
             body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
