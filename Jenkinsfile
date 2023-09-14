@@ -57,28 +57,14 @@ pipeline {
             body: "Please go to ${BUILD_URL} and verify the build"
         }
         success {
-            mail bcc: '', body: """Hi Team,
-
-Build #$BUILD_NUMBER is successful, please go through the url
-
-$BUILD_URL
-
-and verify the details.
-
-Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'imroot056@gmail.com'
+            mail to: 'imroot056@gmail.com',
+            subject: "Job '${JOB_NAME}' build number #${BUILD_NUMBER} is build Succesfully",
+            body: "Please go to ${BUILD_URL} and verify the build"
         }
         failure {
-            mail bcc: '', body: """Hi Team,
-            
-Build #$BUILD_NUMBER is unsuccessful, please go through the url
-
-$BUILD_URL
-
-and verify the details.
-
-Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'imroot056@gmail.com'
+            mail to: 'imroot056@gmail.com',
+            subject: "Job '${JOB_NAME}' build number #${BUILD_NUMBER} Failed",
+            body: "Please go to ${BUILD_URL} and verify the build"
         }
     }
 
