@@ -52,10 +52,19 @@ pipeline {
 
     // Post-build Actions
     post {
-        always {
-            echo 'Post-build actions...'
-            // Any cleanup or additional actions you want to perform after all stages
-            sh 'echo "Always block executed"'
+        success {
+            echo 'Sending success email notification...'
+            emailext subject: 'Net Monitor Build Successful',
+                body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/plain'
+        }
+        failure {
+            echo 'Sending retry email notification...'
+            emailext subject: 'Net Monitor Build Failed',
+                body: 'The Net Monitor build has failed. Please retry the build.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/plain'
         }
     }
 }
