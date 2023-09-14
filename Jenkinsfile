@@ -52,29 +52,26 @@ pipeline {
 
     // Post-build Actions
     post {
-        always {
-            echo 'Sending notification to your email...'
-            mail to: 'imroot056@example.com',
-            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-            body: "Please go to ${BUILD_URL} and verify the build",
-            mimeType: 'text/plain'
-        }
-        
         success {
-            
             echo 'Sending success email notification...'
-            subject: 'Net Monitor Build Successful',
-            body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
-            mail to: 'imroot056@gmail.com',
-            mimeType: 'text/plain'
-
+            emailext subject: 'Net Monitor Build Successful',
+                body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/plain'
+        }
         failure {
             echo 'Sending retry email notification...'
-            subject: 'Net Monitor Build Failed',
-            body: 'The Net Monitor build has failed. Please retry the build.',
-            mail to: 'imroot056@gmail.com',
-            mimeType: 'text/plain'
+            emailext subject: 'Net Monitor Build Failed',
+                body: 'The Net Monitor build has failed. Please retry the build.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/plain'
         }
-        
+        always {
+            echo 'Sending notification to your email...'
+            emailext to: 'your.email@example.com',
+                subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+                body: "Please go to ${BUILD_URL} and verify the build",
+                mimeType: 'text/plain'
+        }
     }
 }
