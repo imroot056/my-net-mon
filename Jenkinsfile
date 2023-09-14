@@ -61,17 +61,17 @@ pipeline {
         }
         failure {
             echo 'Sending retry email notification...'
-            emailext subject: 'Net Monitor Build Failed',
-                body: 'The Net Monitor build has failed. Please retry the build.',
-                to: 'imroot056@gmail.com',
-                mimeType: 'text/plain'
+            subject: 'Net Monitor Build Failed',
+            body: 'The Net Monitor build has failed. Please retry the build.',
+            mail to: 'imroot056@gmail.com',
+            mimeType: 'text/plain'
         }
         always {
             echo 'Sending notification to your email...'
-            emailext to: 'imroot056@example.com',
-                subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-                body: "Please go to ${BUILD_URL} and verify the build",
-                mimeType: 'text/plain'
+            mail to: 'imroot056@example.com',
+            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+            body: "Please go to ${BUILD_URL} and verify the build",
+            mimeType: 'text/plain'
         }
     }
 }
