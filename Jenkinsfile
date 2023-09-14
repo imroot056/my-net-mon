@@ -54,14 +54,14 @@ pipeline {
     post { 
         always { 
             echo 'Sending notification to your email...'
-            emailext to: 'koirala.prayag111@gmail.com',
+            email to: 'koirala.prayag111@gmail.com',
                 subject: "Job '${JOB_NAME}' '${BUILD_NUMBER}' is being Built",
                 body: "Please go to ${BUILD_URL} and verify the build",
                 mimeType: 'text/plain'
         }
         success {
             echo 'Sending success email notification...'
-            emailext subject: 'Net Monitor Build Successful',
+            email subject: 'Net Monitor Build Successful',
                 body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
                 to: 'koirala.prayag111@gmail.com',
                 mimeType: 'text/html',
@@ -70,7 +70,7 @@ pipeline {
         }
         failure {
             echo 'Sending retry email notification...'
-            emailext subject: 'Net Monitor Build Failed',
+            email subject: 'Net Monitor Build Failed',
                 body: 'The Net Monitor build has failed. Please retry the build.',
                 to: 'koirala.prayag111@gmail.com',
                 mimeType: 'text/html',
