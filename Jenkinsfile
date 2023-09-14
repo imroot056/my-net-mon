@@ -51,35 +51,31 @@ pipeline {
     }
 
     // Post-build Actions
-   post { 
+    post { 
         always { 
-            mail to: 'imroot056@gmail.com',
-            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
-            body: "Please go to ${BUILD_URL} and verify the build"
+            echo 'Sending notification to your email...'
+            emailext to: 'imroot056@gmail.com',
+                subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+                body: "Please go to ${BUILD_URL} and verify the build",
+                mimeType: 'text/plain'
         }
         success {
-            mail bcc: '', body: """Hi Team,
-
-Build #$BUILD_NUMBER is successful, please go through the url
-
-$BUILD_URL
-
-and verify the details.
-
-Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'imroot056@gmail.com'
+            echo 'Sending success email notification...'
+            emailext subject: 'Net Monitor Build Successful',
+                body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/html',
+                replyTo: '',
+                from: ''
         }
         failure {
-            mail bcc: '', body: """Hi Team,
-            
-Build #$BUILD_NUMBER is unsuccessful, please go through the url
-
-$BUILD_URL
-
-and verify the details.
-
-Regards,
-DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'imroot056@gmail.com'
+            echo 'Sending retry email notification...'
+            emailext subject: 'Net Monitor Build Failed',
+                body: 'The Net Monitor build has failed. Please retry the build.',
+                to: 'imroot056@gmail.com',
+                mimeType: 'text/html',
+                replyTo: '',
+                from: ''
         }
     }
 }
