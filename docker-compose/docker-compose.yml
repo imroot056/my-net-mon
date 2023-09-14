@@ -18,7 +18,7 @@ services:
       - 9200:9200
       - 9300:9300
     volumes:
-      - /home/nova056/logfiles:/usr/share/logstash/logfiles
+      - /home/nova007/logfiles:/usr/share/logstash/logfiles
     networks:
       - opensearch-net
 
@@ -36,7 +36,7 @@ services:
     image: harbor.registry.local/devops-mynetmon/logstash
     container_name: logstash
     volumes:
-      - /home/nova056/logfiles:/usr/share/logstash/logfiles
+      - /home/nova007/logfiles:/usr/share/logstash/logfiles
     ports:
       - 5400:5400
     command: ["logstash", "-f", "/usr/share/logstash/logfiles/json-read.conf"]    
