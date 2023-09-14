@@ -53,7 +53,7 @@ pipeline {
      post { 
         always { 
             mail to: 'imroot056@gmail.com',
-            subject: "Job '${JOB_NAME}' (${BUILD_NUMBER}) is waiting for input",
+            subject: "Job '${JOB_NAME}' build number #${BUILD_NUMBER} is being build",
             body: "Please go to ${BUILD_URL} and verify the build"
         }
         success {
