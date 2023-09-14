@@ -54,11 +54,11 @@ pipeline {
     post {
         success {
             echo 'Sending success email notification...'
-            emailext subject: 'Net Monitor Build Successful',
-                body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
-                to: 'imroot056@gmail.com',
-                mimeType: 'text/plain'
-        }
+            subject: 'Net Monitor Build Successful',
+            body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
+            mail to: 'imroot056@gmail.com',
+            mimeType: 'text/plain'
+
         failure {
             echo 'Sending retry email notification...'
             subject: 'Net Monitor Build Failed',
