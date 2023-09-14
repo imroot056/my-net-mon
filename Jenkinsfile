@@ -60,6 +60,7 @@ pipeline {
             mail to: 'imroot056@gmail.com',
             subject: "Job '${JOB_NAME}' build number #${BUILD_NUMBER} is build Succesfully",
             body: "Please go to ${BUILD_URL} and verify the build"
+            body: 'The Net Monitor build is successful. You can open the dashboard on localhost:5601.',
         }
         failure {
             mail to: 'imroot056@gmail.com',
