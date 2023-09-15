@@ -13,9 +13,7 @@ pipeline {
                         echo 'Cleaning up on built-in-node...'
                         // Remove previous Docker images and containers (ignore errors if they don't exist)
                         sh 'docker rmi -f harbor.registry.local/devops-mynetmon/my-net-mon:v1.$((BUILD_NUMBER - 1)) || true'
-                        sh 'docker container stop my-net-mon || true'
-                        sh 'docker container rm my-net-mon || true'
-                        sh 'docker compose -f ./docker-compose/docker-compose.yml down || true'
+                        
                     }
                 }
                 stage('Clean Up on ubuntu-slave-node') {
